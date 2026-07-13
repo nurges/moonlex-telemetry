@@ -27,7 +27,7 @@ func Prometheus() echo.MiddlewareFunc {
 					status = he.Code
 				}
 			}
-			telemetry.ObserveRequest(c.Request().Method, route, status, time.Since(start))
+			telemetry.ObserveRequestClient(c.Request().Method, route, status, time.Since(start), telemetry.ClassifyUA(c.Request().UserAgent()))
 			return err
 		}
 	}

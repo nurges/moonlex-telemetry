@@ -31,3 +31,9 @@ Env vars (empty = subsystem disabled): `LOG_LEVEL`, `SENTRY_DSN`,
 Business metrics: `telemetry.Counter("myapp_things_total", "...")` — keep the
 app prefix; only HTTP RED metrics use bare names (the scrape config injects
 the `app` label).
+
+`http_requests_total` carries a `client` label (`human` | `bot`), classified
+from the User-Agent by the chimw/echomw middlewares (`telemetry.ClassifyUA`).
+Self-identified crawlers and script clients only — a scraper faking a browser
+UA counts as human. Callers of the bare `ObserveRequest` are recorded as
+`client="human"`; pass an explicit kind via `ObserveRequestClient`.

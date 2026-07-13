@@ -20,7 +20,7 @@ func PrometheusMiddleware(next http.Handler) http.Handler {
 		start := time.Now()
 		ww := chimiddleware.NewWrapResponseWriter(w, r.ProtoMajor)
 		next.ServeHTTP(ww, r)
-		telemetry.ObserveRequest(r.Method, routePattern(r), ww.Status(), time.Since(start))
+		telemetry.ObserveRequestClient(r.Method, routePattern(r), ww.Status(), time.Since(start), telemetry.ClassifyUA(r.UserAgent()))
 	})
 }
 
